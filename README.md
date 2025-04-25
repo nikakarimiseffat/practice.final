@@ -1,0 +1,34 @@
+
+# practice.final
+
+A minimal practice package with two small utility functions:
+
+- `is_leap()`: Determines whether a given year is a leap year.
+- `is_palindrome()`: Checks if a word or phrase is a palindrome.
+
+## Installation
+
+``` r
+# install.packages("devtools")
+# devtools::install_github("yourusername/practice.final")
+```
+
+## Examples
+
+library(practice.final)
+
+``` r
+# Leap year
+is_leap(2000)  # TRUE
+is_leap(1900)  # FALSE
+
+# Palindrome
+is_palindrome("A man a plan a canal Panama")  # TRUE
+is_palindrome("hello")                        # FALSE
+
+
+### ✅ 1.3 Render the README
+
+```r
+devtools::build_readme()
+```

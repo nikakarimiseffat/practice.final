@@ -1,0 +1,145 @@
+---
+title: "Basic Utility Functions"
+author: "Nika Karimi"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 2
+---
+
+# Introduction
+
+The **regexcite** package provides simple yet handy utility functions for common tasks. In this vignette, we demonstrate two core functions:
+
+1. `is_leap(year)`: Determine whether a given integer year is a leap year.
+2. `is_palindrome(word)`: Check if a string reads the same forwards and backwards, ignoring spaces, punctuation, and letter case.
+
+Throughout this document, we load the package, call each function with representative examples, and discuss their behavior.
+
+
+
+# Loading the Package
+
+Ensure you have installed **regexcite** from CRAN or GitHub:
+
+```r
+# Install from CRAN
+install.packages("regexcite")
+
+# Or install the development version
+# remotes::install_github("<your-username>/regexcite")
+```
+
+Load the library:
+
+```{r load-package, message=FALSE}
+library(regexcite)
+```
+
+
+# Checking for Leap Years
+
+The `is_leap()` function implements the Gregorian calendar rules:
+
+- Years divisible by 4 → leap years.
+- Years divisible by 100 → **not** leap years, unless also divisible by 400.
+
+## Usage
+
+```r
+?is_leap
+```
+
+## Examples
+
+```{r leap-examples}
+years <- c(1992, 1900, 2000, 2023)
+leap_flags <- is_leap(years)
+data.frame(
+  year = years,
+  is_leap = leap_flags
+)
+```
+
+Expected output:
+
+| year | is_leap |
+|------|---------|
+| 1992 | TRUE    |
+| 1900 | FALSE   |
+| 2000 | TRUE    |
+| 2023 | FALSE   |
+
+
+# Detecting Palindromes
+
+The `is_palindrome()` function tests whether a single-character string is a palindrome. It:
+
+1. Converts to lowercase.
+2. Removes all non-alphanumeric characters.
+3. Compares the cleaned string to its reverse.
+
+## Usage
+
+```r
+?is_palindrome
+```
+
+## Examples
+
+```{r palindrome-examples}
+words <- c(
+  "radar",
+  "A man, a plan, a canal: Panama",
+  "Hello, world"
+)
+
+pal_flags <- vapply(words, is_palindrome, logical(1))
+data.frame(
+  word = words,
+  is_palindrome = pal_flags
+)
+```
+
+Expected output:
+
+| word                               | is_palindrome |
+|------------------------------------|---------------|
+| radar                              | TRUE          |
+| A man, a plan, a canal: Panama    | TRUE          |
+| Hello, world                       | FALSE         |
+
+
+# Function Internals
+
+For reference, here are the core implementations:
+
+```r
+is_leap <- function(year) {
+  if (!is.numeric(year) || any(year %% 1 != 0)) {
+    stop("Input must be an integer.")
+  }
+  (year %% 4 == 0 & year %% 100 != 0) | (year %% 400 == 0)
+}
+
+is_palindrome <- function(word) {
+  if (!is.character(word) || length(word) != 1) {
+    stop("Input must be a single character string.")
+  }
+  cleaned <- stringr::str_to_lower(
+    stringr::str_remove_all(word, "[^[:alnum:]]")
+  )
+  cleaned == paste(rev(strsplit(cleaned, "")[[1]]), collapse = "")
+}
+```
+
+
+# Conclusion
+
+The **regexcite** package’s utility functions simplify common string and date checks. This vignette illustrated how to:
+
+- Identify leap years with `is_leap()`.
+- Detect palindromes with `is_palindrome()`.
+
+We encourage you to explore these functions further and contribute enhancements on GitHub. Happy coding!
