@@ -1,0 +1,22 @@
+---
+title: "Getting Started with regexcite"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with regexcite}
+  %\VignetteEngine{rmarkdown::html_vignette}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(regexcite)
+```
+
+Introduction
+The regexcite package provides simple functions for working with strings using regular expressions. This vignette will walk you through its basic usage.
+
+Function 1: `str_split_one()`
+This function splits a string on a single pattern and returns a character vector.
